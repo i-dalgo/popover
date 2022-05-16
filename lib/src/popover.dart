@@ -68,6 +68,8 @@ import 'popover_item.dart';
 ///
 /// The `barrierLabel` is semantic label used for a dismissible barrier.
 ///
+/// The `shouldCenter` is a HOTFIX for centering popover over messages.
+///
 Future<T?> showPopover<T extends Object?>({
   required BuildContext context,
   required WidgetBuilder bodyBuilder,
@@ -93,6 +95,7 @@ Future<T?> showPopover<T extends Object?>({
   RouteSettings? routeSettings,
   String? barrierLabel,
   Key? key,
+  bool shouldCenter = false
 }) {
   constraints = (width != null || height != null)
       ? constraints?.tighten(width: width, height: height) ??
@@ -137,6 +140,7 @@ Future<T?> showPopover<T extends Object?>({
               arrowDyOffset: arrowDyOffset,
               contentDyOffset: contentDyOffset,
               isParentAlive: isParentAlive,
+              shouldCenter: shouldCenter,
               key: key,
             ),
           ),

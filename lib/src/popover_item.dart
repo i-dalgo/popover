@@ -21,6 +21,7 @@ class PopoverItem extends StatefulWidget {
   final double? arrowDyOffset;
   final double? contentDyOffset;
   final bool Function()? isParentAlive;
+  final bool? shouldCenter;
 
   const PopoverItem({
     required this.child,
@@ -37,6 +38,7 @@ class PopoverItem extends StatefulWidget {
     this.arrowDyOffset,
     this.contentDyOffset,
     this.isParentAlive,
+    this.shouldCenter,
     Key? key,
   }) : super(key: key);
 
@@ -63,6 +65,7 @@ class _PopoverItemState extends State<PopoverItem> {
               constraints: constraints,
               direction: widget.direction,
               arrowHeight: widget.arrowHeight,
+              shouldCenter: widget.shouldCenter,
               child: PopoverContext(
                 attachRect: attachRect,
                 animation: widget.animation,

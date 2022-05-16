@@ -9,6 +9,7 @@ class PopoverPositionWidget extends SingleChildRenderObjectWidget {
   final BoxConstraints? constraints;
   final PopoverDirection? direction;
   final double? arrowHeight;
+  final bool? shouldCenter;
 
   const PopoverPositionWidget({
     required this.arrowHeight,
@@ -16,6 +17,7 @@ class PopoverPositionWidget extends SingleChildRenderObjectWidget {
     this.constraints,
     this.scale,
     this.direction,
+    this.shouldCenter,
     Widget? child,
   }) : super(child: child);
 
@@ -26,6 +28,7 @@ class PopoverPositionWidget extends SingleChildRenderObjectWidget {
       direction: direction,
       constraints: constraints,
       arrowHeight: arrowHeight,
+      shouldCenter: shouldCenter
     );
   }
 

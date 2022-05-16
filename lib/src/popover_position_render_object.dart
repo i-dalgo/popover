@@ -9,6 +9,7 @@ class PopoverPositionRenderObject extends RenderShiftedBox {
   Rect? _attachRect;
   BoxConstraints? _additionalConstraints;
   double? arrowHeight;
+  bool? _shouldCenter;
 
   PopoverPositionRenderObject({
     required this.arrowHeight,
@@ -16,10 +17,12 @@ class PopoverPositionRenderObject extends RenderShiftedBox {
     Rect? attachRect,
     BoxConstraints? constraints,
     PopoverDirection? direction,
+    bool? shouldCenter,
   }) : super(child) {
     _attachRect = attachRect;
     _additionalConstraints = constraints;
     _direction = direction;
+    _shouldCenter = shouldCenter;
   }
 
   BoxConstraints? get additionalConstraints => _additionalConstraints;
@@ -97,13 +100,31 @@ class PopoverPositionRenderObject extends RenderShiftedBox {
   double _horizontalOffset(Size size) {
     var offset = 0.0;
 
-    if (attachRect!.left > size.width / 2 &&
-        Utils().screenWidth - attachRect!.right > size.width / 2) {
-      offset = attachRect!.left + attachRect!.width / 2 - size.width / 2;
-    } else if (attachRect!.left < size.width / 2) {
-      offset = arrowHeight!;
+    if (_shouldCenter!) {
+      // HOTFIX : chat messages
+      final isLeftSide = attachRect!.center.dx <
+        Utils().screenWidth / 2;
+      final isWiderThanParent = isLeftSide
+        ? size.width - attachRect!.left > attachRect!.size.width
+          + attachRect!.left
+        : size.width > attachRect!.size.width;
+
+      if (!isWiderThanParent) {
+        offset = attachRect!.left + attachRect!.width / 2 - size.width / 2;
+      } else if (attachRect!.left < size.width / 2) {
+        offset = arrowHeight!;
+      } else {
+        offset = Utils().screenWidth - arrowHeight! - size.width;
+      }
     } else {
-      offset = Utils().screenWidth - arrowHeight! - size.width;
+      if (attachRect!.left > size.width / 2 &&
+          Utils().screenWidth - attachRect!.right > size.width / 2) {
+        offset = attachRect!.left + attachRect!.width / 2 - size.width / 2;
+      } else if (attachRect!.left < size.width / 2) {
+        offset = arrowHeight!;
+      } else {
+        offset = Utils().screenWidth - arrowHeight! - size.width;
+      }
     }
     return offset;
   }
