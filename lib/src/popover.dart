@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'popover_black.dart';
 import 'popover_direction.dart';
@@ -122,6 +123,11 @@ Future<T?> showPopover<T extends Object?>({
       transitionDuration: transitionDuration,
       settings: routeSettings,
       transitionBuilder: (builderContext, animation, _, child) {
+        // is a [FORK-MODIFICATION] to keep keyboard open
+        if (hasHighlight) {
+          FocusManager.instance.primaryFocus?.requestFocus();
+        }
+
         return WillPopScope(
           onWillPop: () {
             if (onPop != null) {
