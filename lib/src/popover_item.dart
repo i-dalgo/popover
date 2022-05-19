@@ -57,31 +57,27 @@ class _PopoverItemState extends State<PopoverItem> {
     return LayoutBuilder(
       builder: (_, __) {
         _configure();
-        return Stack(
-          children: [
-            PopoverPositionWidget(
-              attachRect: attachRect,
-              scale: widget.animation,
-              constraints: constraints,
-              direction: widget.direction,
-              arrowHeight: widget.arrowHeight,
-              shouldCenter: widget.shouldCenter,
-              child: PopoverContext(
-                attachRect: attachRect,
-                animation: widget.animation,
-                radius: widget.radius,
-                backgroundColor: widget.backgroundColor,
-                boxShadow: widget.boxShadow,
-                direction: widget.direction,
-                arrowWidth: widget.arrowWidth,
-                arrowHeight: widget.arrowHeight,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: widget.child,
-                ),
-              ),
-            )
-          ],
+        return PopoverPositionWidget(
+          attachRect: attachRect,
+          scale: widget.animation,
+          constraints: constraints,
+          direction: widget.direction,
+          arrowHeight: widget.arrowHeight,
+          shouldCenter: widget.shouldCenter,
+          child: PopoverContext(
+            attachRect: attachRect,
+            animation: widget.animation,
+            radius: widget.radius,
+            backgroundColor: widget.backgroundColor,
+            boxShadow: widget.boxShadow,
+            direction: widget.direction,
+            arrowWidth: widget.arrowWidth,
+            arrowHeight: widget.arrowHeight,
+            child: Material(
+              type: MaterialType.transparency,
+              child: widget.child,
+            ),
+          ),
         );
       },
     );

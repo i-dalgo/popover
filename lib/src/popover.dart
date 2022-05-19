@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'popover_black.dart';
 import 'popover_direction.dart';
 import 'popover_item.dart';
 
@@ -68,7 +69,11 @@ import 'popover_item.dart';
 ///
 /// The `barrierLabel` is semantic label used for a dismissible barrier.
 ///
-/// The `shouldCenter` is a HOTFIX for centering popover over messages.
+/// The `shouldCenter` is a [FORK-MODIFICATION] for centering popover over
+/// messages.
+///
+/// The `highlightBorderRadius` is a [FORK-MODIFICATION] for drawing highlight's
+/// borderRadius.
 ///
 Future<T?> showPopover<T extends Object?>({
   required BuildContext context,
@@ -94,13 +99,16 @@ Future<T?> showPopover<T extends Object?>({
   BoxConstraints? constraints,
   RouteSettings? routeSettings,
   String? barrierLabel,
+  bool shouldCenter = false,
+  BorderRadiusDirectional? highlightBorderRadius,
   Key? key,
-  bool shouldCenter = false
 }) {
   constraints = (width != null || height != null)
       ? constraints?.tighten(width: width, height: height) ??
           BoxConstraints.tightFor(width: width, height: height)
       : constraints;
+
+  final hasHighlight = highlightBorderRadius != null;
 
   return Navigator.of(context, rootNavigator: true).push<T>(
     RawDialogRoute<T>(
@@ -124,26 +132,35 @@ Future<T?> showPopover<T extends Object?>({
             }
           },
           child: FadeTransition(
-            opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-            child: PopoverItem(
-              child: bodyBuilder(builderContext),
-              context: context,
-              backgroundColor: backgroundColor,
-              direction: direction,
-              radius: radius,
-              boxShadow: shadow,
-              animation: animation,
-              arrowWidth: arrowWidth,
-              arrowHeight: arrowHeight,
-              constraints: constraints,
-              arrowDxOffset: arrowDxOffset,
-              arrowDyOffset: arrowDyOffset,
-              contentDyOffset: contentDyOffset,
-              isParentAlive: isParentAlive,
-              shouldCenter: shouldCenter,
-              key: key,
+            opacity: CurvedAnimation(parent: animation,
+            curve: Curves.easeOut),
+            child: Stack(
+              children: [
+                if (hasHighlight) ...[
+                  PopoverBlack(context: context, borderRadius:
+                  highlightBorderRadius!)
+                ],
+                PopoverItem(
+                  child: bodyBuilder(builderContext),
+                  context: context,
+                  backgroundColor: backgroundColor,
+                  direction: direction,
+                  radius: radius,
+                  boxShadow: shadow,
+                  animation: animation,
+                  arrowWidth: arrowWidth,
+                  arrowHeight: arrowHeight,
+                  constraints: constraints,
+                  arrowDxOffset: arrowDxOffset,
+                  arrowDyOffset: arrowDyOffset,
+                  contentDyOffset: contentDyOffset,
+                  isParentAlive: isParentAlive,
+                  shouldCenter: shouldCenter,
+                  key: key,
+                ),
+              ]
             ),
-          ),
+          )
         );
       },
     ),
