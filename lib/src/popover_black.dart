@@ -5,11 +5,14 @@ import 'utils/build_context_extension.dart';
 class PopoverBlack extends StatefulWidget {
   final BuildContext context;
   final BorderRadiusDirectional borderRadius;
+  final bool Function()? isParentAlive;
 
   PopoverBlack({
     required this.context,
     required this.borderRadius,
-  });
+    this.isParentAlive,
+    Key? key,
+  }) : super(key: key);
 
   _PopoverBlackState createState() => _PopoverBlackState();
 }
@@ -82,20 +85,35 @@ class _PopoverBlackState extends State<PopoverBlack>
   }
 
   void _configureHighlight() {
-    final offset = BuildContextExtension.getWidgetLocalToGlobal(widget.context);
-    final bounds = BuildContextExtension.getWidgetBounds(widget.context);
+    final bool isParentAlive;
+    if (widget.isParentAlive != null) {
+      isParentAlive = widget.isParentAlive!();
+    } else {
+      isParentAlive = true;
+    }
 
-    highlight = RRect.fromRectAndCorners(
-      Rect.fromLTWH(
-        offset.dx,
-        offset.dy,
-        bounds.width,
-        bounds.height,
-      ),
-      topLeft: widget.borderRadius.topStart,
-      topRight: widget.borderRadius.topEnd,
-      bottomLeft: widget.borderRadius.bottomStart,
-      bottomRight: widget.borderRadius.bottomEnd,
-    );
+    if (!isParentAlive) {
+      return;
+    }
+
+    final box = widget.context.findRenderObject() as RenderBox;
+    if (mounted && box.owner != null) {
+      final offset =
+        BuildContextExtension.getWidgetLocalToGlobal(widget.context);
+      final bounds = BuildContextExtension.getWidgetBounds(widget.context);
+
+      highlight = RRect.fromRectAndCorners(
+        Rect.fromLTWH(
+          offset.dx,
+          offset.dy,
+          bounds.width,
+          bounds.height,
+        ),
+        topLeft: widget.borderRadius.topStart,
+        topRight: widget.borderRadius.topEnd,
+        bottomLeft: widget.borderRadius.bottomStart,
+        bottomRight: widget.borderRadius.bottomEnd,
+      );
+    }
   }
 }

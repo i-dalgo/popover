@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'popover_black.dart';
 import 'popover_direction.dart';
 import 'popover_item.dart';
@@ -143,8 +141,12 @@ Future<T?> showPopover<T extends Object?>({
             child: Stack(
               children: [
                 if (hasHighlight) ...[
-                  PopoverBlack(context: context, borderRadius:
-                  highlightBorderRadius!)
+                  PopoverBlack(
+                    context: context,
+                    borderRadius: highlightBorderRadius!,
+                    isParentAlive: isParentAlive,
+                    key: key
+                  )
                 ],
                 PopoverItem(
                   child: bodyBuilder(builderContext),
