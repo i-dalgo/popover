@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'popover_black.dart';
+import 'popover_highlight.dart';
 import 'popover_direction.dart';
 import 'popover_item.dart';
 
@@ -141,7 +141,7 @@ Future<T?> showPopover<T extends Object?>({
             child: Stack(
               children: [
                 if (hasHighlight) ...[
-                  PopoverBlack(
+                  PopoverHighlight(
                     context: context,
                     borderRadius: highlightBorderRadius!,
                     isParentAlive: isParentAlive,

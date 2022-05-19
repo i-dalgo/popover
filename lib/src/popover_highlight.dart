@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'utils/build_context_extension.dart';
 
 // [FORK-MODIFICATION]
-class PopoverBlack extends StatefulWidget {
+class PopoverHighlight extends StatefulWidget {
   final BuildContext context;
   final BorderRadiusDirectional borderRadius;
   final bool Function()? isParentAlive;
 
-  PopoverBlack({
+  PopoverHighlight({
     required this.context,
     required this.borderRadius,
     this.isParentAlive,
     Key? key,
   }) : super(key: key);
 
-  _PopoverBlackState createState() => _PopoverBlackState();
+  _PopoverHighlightState createState() => _PopoverHighlightState();
 }
-class _PopoverBlackState extends State<PopoverBlack>
+
+class _PopoverHighlightState extends State<PopoverHighlight>
   with SingleTickerProviderStateMixin {
   late Animation<double> alphaAnim;
   late AnimationController alphaController;
@@ -76,7 +77,7 @@ class _PopoverBlackState extends State<PopoverBlack>
                   width: highlight.width,
                   height: highlight.height,
                 ),
-              )
+              ),
             ],
           ),
         );
