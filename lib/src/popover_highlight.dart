@@ -18,7 +18,7 @@ class PopoverHighlight extends StatefulWidget {
 }
 
 class _PopoverHighlightState extends State<PopoverHighlight>
-  with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late Animation<double> alphaAnim;
   late AnimationController alphaController;
   late RRect highlight;
@@ -42,47 +42,47 @@ class _PopoverHighlightState extends State<PopoverHighlight>
   }
 
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (_, __) {
-        _configureHighlight();
-        return ColorFiltered(
-          colorFilter: ColorFilter.mode(
-            Colors.black.withAlpha(alphaAnim.value.toInt()),
-            BlendMode.srcOut,
-          ),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: IgnorePointer(
-                  ignoring: false,
-                  child: GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(color: const Color(0x80000000))
-                  )
-                )
-              ),
-              Positioned(
-                top: highlight.top,
-                left: highlight.left,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: highlight.tlRadius,
-                      topRight: highlight.trRadius,
-                      bottomLeft: highlight.blRadius,
-                      bottomRight: highlight.brRadius,
-                    )
+    return LayoutBuilder(builder: (_, __) {
+      _configureHighlight();
+      return ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          Colors.black.withAlpha(alphaAnim.value.toInt()),
+          BlendMode.srcOut,
+        ),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: IgnorePointer(
+                ignoring: false,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    color: const Color(0x80000000),
                   ),
-                  width: highlight.width,
-                  height: highlight.height,
                 ),
               ),
-            ],
-          ),
-        );
-      }
-    );
+            ),
+            // Positioned(
+            //   top: highlight.top,
+            //   left: highlight.left,
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.only(
+            //         topLeft: highlight.tlRadius,
+            //         topRight: highlight.trRadius,
+            //         bottomLeft: highlight.blRadius,
+            //         bottomRight: highlight.brRadius,
+            //       ),
+            //     ),
+            //     width: highlight.width,
+            //     height: highlight.height,
+            //   ),
+            // ),
+          ],
+        ),
+      );
+    });
   }
 
   void _configureHighlight() {
@@ -100,7 +100,7 @@ class _PopoverHighlightState extends State<PopoverHighlight>
     final box = widget.context.findRenderObject() as RenderBox;
     if (mounted && box.owner != null) {
       final offset =
-        BuildContextExtension.getWidgetLocalToGlobal(widget.context);
+          BuildContextExtension.getWidgetLocalToGlobal(widget.context);
       final bounds = BuildContextExtension.getWidgetBounds(widget.context);
 
       highlight = RRect.fromRectAndCorners(
